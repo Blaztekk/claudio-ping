@@ -1,0 +1,30 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "powershell",
+            "command": "$json=$input|Out-String|ConvertFrom-Json; $sid=$json.session_id; $f=\"$env:TEMP\\claude_stop_ts_$sid.txt\"; $now=[DateTimeOffset]::UtcNow.ToUnixTimeSeconds(); $last=if(Test-Path $f){[long](Get-Content $f)}else{0}; if(($now-$last) -gt 30){$now|Set-Content $f; try{(New-Object System.Media.SoundPlayer 'C:\\Windows\\Media\\Windows Balloon.wav').PlaySync()}catch{[Console]::Beep(880,200)}}",
+            "timeout": 10,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "powershell",
+            "command": "try{(New-Object System.Media.SoundPlayer 'C:\\Windows\\Media\\Windows Hardware Fail.wav').PlaySync()}catch{[Console]::Beep(440,300)}",
+            "timeout": 10,
+            "async": true
+          }
+        ]
+      }
+    ]
+  }
+}

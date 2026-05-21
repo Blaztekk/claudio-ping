@@ -1,0 +1,28 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "SID=$(python3 -c \"import sys,json; print(json.load(sys.stdin).get('session_id','x'))\" 2>/dev/null || echo 'x'); F=\"/tmp/claude_stop_ts_${SID}.txt\"; NOW=$(date +%s); LAST=$(cat \"$F\" 2>/dev/null || echo 0); if [ $((NOW-LAST)) -gt 30 ]; then echo $NOW > \"$F\"; afplay /System/Library/Sounds/Glass.aiff 2>/dev/null || true; fi",
+            "timeout": 5,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "afplay /System/Library/Sounds/Ping.aiff 2>/dev/null || true",
+            "timeout": 5,
+            "async": true
+          }
+        ]
+      }
+    ]
+  }
+}
